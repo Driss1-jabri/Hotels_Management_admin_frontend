@@ -6,6 +6,8 @@ import SideBar from "./Component/SideBar";
 import Hotels from "./Component/Hotels";
 import Rooms from "./Component/Rooms";
 import HotelTable from "./Component/HotelTable";
+import './App.css'
+import ToggleContent from "./Component/Update_view_Folder/ConponentUp";
 
 const Home = () =>  <div>Contenu de la page d'accueil</div>;
 const Page1 = () => (
@@ -22,6 +24,7 @@ const App = () => {
       <div style={{ display: "flex" }}>
         <SideBar />
         <div style={{ marginLeft: "0%", padding: "20px", width: "80%" }}>
+          
           <Routes>
             <Route path="/" exact element={<Home />} />
             <Route path="/page1" element={<Hotels />} />

@@ -46,6 +46,7 @@ export default function Hotels() {
 
   function ToggleContent1({ hotel }) {
     const [editedHotel, setEditedHotel] = useState({ ...hotel });
+    
     const [isDisabled ,setIsDisabled]=useState(true);
     const handleChange = (e) => {
       const { id, value } = e.target;
@@ -74,6 +75,22 @@ export default function Hotels() {
 
     const handleSubmit = async (e) => {
       e.preventDefault();
+      if(hotel.imageBase64===editedHotel.imageBase64){
+        console.log("hello")
+        var binaryString = window.atob(editedHotel.imageBase64);
+
+        // Convertir les données binaires en tableau d'octets
+        var length = binaryString.length;
+        var bytes = new Uint8Array(length);
+        for (var i = 0; i < length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+
+        // Créer un objet Blob à partir des données binaires
+        var blob = new Blob([bytes], { type: 'image/png' });
+        console.log(blob)
+        setEditedHotel({ ...editedHotel, imageBase64: blob})
+      }
       const formData = new FormData();
       formData.append("ville",editedHotel.ville)
       formData.append("adresse",editedHotel.adresse)
@@ -81,7 +98,6 @@ export default function Hotels() {
     formData.append("image",editedHotel.imageBase64)
 
       try {
-
         const response = await axios.put(`http://localhost:8088/hotels/zte/${editedHotel.id}`, formData,{
           headers: {
               'Content-Type': 'multipart/form-data'
@@ -108,37 +124,37 @@ export default function Hotels() {
 
               <form onSubmit={handleSubmit} className="form">
                 <div>
-                  <label htmlFor="id">hotel_Id:{" (readOnly)"}</label>
+                  <label htmlFor="id">identifiant d'hôtel{" (readOnly)"}</label>
                   <input id="id" required type="number" readOnly value={editedHotel.id} />
                 </div>
 
                 <div>
-                  <label htmlFor="nom"> Hotel_Name</label>
+                  <label htmlFor="nom"> Nom d'hôtel</label>
                   <input type="text"  required id="nom" value={editedHotel.nom} onChange={handleChange} />
                 </div>
 
                 <div>
-                <label htmlFor="adresse">Hotel_Adresse</label>
+                <label htmlFor="adresse">Adresse d'hôtel</label>
                   <input type="text" required id="adresse" value={editedHotel.adresse} onChange={handleChange} />
                 </div>
 
                 <div>
-                <label htmlFor="ville">Hotel_City:</label>
+                <label htmlFor="ville"> Ville d'hôtel:</label>
                   <input type="text"  required id="ville" value={editedHotel.ville} onChange={handleChange} />
                 </div>
 
                 <div>
                 <label  title="image" htmlFor="imageBase64" className="labelFile">
-                <RiUploadCloud2Line className="icon" /> Upload Image
+                <RiUploadCloud2Line className="icon" /> importer Image
                  
                 </label>
                 
-                <input type="file" style={{display:"none"}} title="gsdhgh" required  id="imageBase64" onChange={(e) =>{ setEditedHotel({ ...editedHotel, imageBase64: e.target.files[0] })
+                <input type="file" style={{display:"none"}} id="imageBase64" onChange={(e) =>{ setEditedHotel({ ...editedHotel, imageBase64: e.target.files[0] })
                 
               }} />
                 </div>
 
-                <button type="submit"  disabled={ isDisabled}> <GrUpdate className="icon"></GrUpdate>Update Data</button>
+                <button type="submit"  disabled={ isDisabled}> <GrUpdate className="icon"></GrUpdate>modifier </button>
               </form>
             </div>
           </div>

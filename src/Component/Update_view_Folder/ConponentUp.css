@@ -15,6 +15,7 @@
     z-index: 1000;
     
     .cmc{
+        border-radius: 4px;
         background-color: rgba(255, 255, 255, 0.998);
         width: 35vw;
         height: 90vh;

@@ -53,8 +53,8 @@ export default function Hotels() {
         ...prevHotel,
         [id]: value
       }));
-      console.log(hotel)
-      console.log(editedHotel)
+      
+      
       if (
         editedHotel.nom === hotel.nom &&
         editedHotel.adresse === hotel.adresse &&
@@ -62,7 +62,7 @@ export default function Hotels() {
         editedHotel.imageBase64 === null
       ) {
         setIsDisabled(true);
-        console.log(true) // Activer le bouton si les valeurs sont différentes
+         // Activer le bouton si les valeurs sont différentes
       } else {
         setIsDisabled(false);
          // Désactiver le bouton si les valeurs sont identiques
@@ -127,12 +127,14 @@ export default function Hotels() {
                 </div>
 
                 <div>
-                <label htmlFor="imageBase64" className="labelFile">
+                <label  title="image" htmlFor="imageBase64" className="labelFile">
                 <RiUploadCloud2Line className="icon" /> Upload Image
                  
                 </label>
                 
-                <input type="file" style={{display:"none"}} title="gsdhgh" required  id="imageBase64" onChange={(e) => setEditedHotel({ ...editedHotel, imageBase64: e.target.files[0] })} />
+                <input type="file" style={{display:"none"}} title="gsdhgh" required  id="imageBase64" onChange={(e) =>{ setEditedHotel({ ...editedHotel, imageBase64: e.target.files[0] })
+                
+              }} />
                 </div>
 
                 <button type="submit"  disabled={ isDisabled}> <GrUpdate className="icon"></GrUpdate>Update Data</button>

@@ -87,6 +87,7 @@ export default function Hotels() {
               'Content-Type': 'multipart/form-data'
           }});
         alert("votre donnes sont modifier")
+        toggleVisibility(hotel.id)
         fetchHotels();
         // Ajoutez ici la logique pour gérer la réponse du serveur si nécessaire
       } catch (error) {

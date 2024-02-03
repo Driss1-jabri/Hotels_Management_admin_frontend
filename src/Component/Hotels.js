@@ -3,8 +3,11 @@ import NavBar from "./NavBar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import './Update_view_Folder/ConponentUp.css'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { GrUpdate } from "react-icons/gr";
+
+
+import logo from '../images/logohotel.png'
+import { RiUploadCloud2Line } from "react-icons/ri";
 
 export default function Hotels() {
   const [hotels, setHotels] = useState([]);
@@ -24,7 +27,7 @@ export default function Hotels() {
   }, []);
 
   const deleteHotel = async (id) => {
-    await axios.delete(`http://localhost:9090/hotels/${id}`);
+    await axios.delete(`http://localhost:8088/hotels/${id}`);
     fetchHotels();
   }
 
@@ -43,31 +46,48 @@ export default function Hotels() {
 
   function ToggleContent1({ hotel }) {
     const [editedHotel, setEditedHotel] = useState({ ...hotel });
-
+    const [isDisabled ,setIsDisabled]=useState(true);
     const handleChange = (e) => {
       const { id, value } = e.target;
       setEditedHotel((prevHotel) => ({
         ...prevHotel,
         [id]: value
       }));
-      console.log(editedHotel.imageBase64);
+      console.log(hotel)
+      console.log(editedHotel)
+      if (
+        editedHotel.nom === hotel.nom &&
+        editedHotel.adresse === hotel.adresse &&
+        editedHotel.ville === hotel.ville &&
+        editedHotel.imageBase64 === null
+      ) {
+        setIsDisabled(true);
+        console.log(true) // Activer le bouton si les valeurs sont différentes
+      } else {
+        setIsDisabled(false);
+         // Désactiver le bouton si les valeurs sont identiques
+         console.log(false)
+      }
+
+
     };
 
     const handleSubmit = async (e) => {
       e.preventDefault();
       const formData = new FormData();
-  
-  
-  formData.append("nom",editedHotel.nom)
-  formData.append("image",editedHotel.imageBase64)
-  
+      formData.append("ville",editedHotel.ville)
+      formData.append("adresse",editedHotel.adresse)
+    formData.append("nom",editedHotel.nom)
+    formData.append("image",editedHotel.imageBase64)
+
       try {
 
         const response = await axios.put(`http://localhost:8088/hotels/zte/${editedHotel.id}`, formData,{
           headers: {
               'Content-Type': 'multipart/form-data'
           }});
-        console.log("Hotel updated successfully:", response.data);
+        alert("votre donnes sont modifier")
+        fetchHotels();
         // Ajoutez ici la logique pour gérer la réponse du serveur si nécessaire
       } catch (error) {
         console.error("Error updating hotel:", error);
@@ -79,30 +99,43 @@ export default function Hotels() {
         {isVisible === hotel.id && (
           <div className="cm">
             <div className="cmc">
-              <button onClick={() => toggleVisibility(hotel.id)}>Toggle Content</button>
-              
-              <form onSubmit={handleSubmit}>
+              <div className="headform">
+                <img src={logo}/>
+                
+                <button onClick={() => toggleVisibility(hotel.id)}> X</button>
+              </div>
+
+              <form onSubmit={handleSubmit} className="form">
                 <div>
-                  <input id="id" type="number" disabled value={editedHotel.id} />
+                  <label htmlFor="id">hotel_Id:{" (readOnly)"}</label>
+                  <input id="id" required type="number" readOnly value={editedHotel.id} />
                 </div>
 
                 <div>
-                  <input type="text" id="nom" value={editedHotel.nom} onChange={handleChange} />
+                  <label htmlFor="nom"> Hotel_Name</label>
+                  <input type="text"  required id="nom" value={editedHotel.nom} onChange={handleChange} />
                 </div>
 
                 <div>
-                  <input type="text" id="adresse" value={editedHotel.adresse} onChange={handleChange} />
+                <label htmlFor="adresse">Hotel_Adresse</label>
+                  <input type="text" required id="adresse" value={editedHotel.adresse} onChange={handleChange} />
                 </div>
 
                 <div>
-                  <input type="text" id="ville" value={editedHotel.ville} onChange={handleChange} />
+                <label htmlFor="ville">Hotel_City:</label>
+                  <input type="text"  required id="ville" value={editedHotel.ville} onChange={handleChange} />
                 </div>
 
                 <div>
-                <input type="file" name="imageBase64" onChange={(e) => setEditedHotel({ ...editedHotel, imageBase64: e.target.files[0] })} />
+                <label htmlFor="imageBase64" className="labelFile">
+                <RiUploadCloud2Line className="icon" /> Upload Image
+                 
+                </label>
+                
+                <input type="file" style={{display:"none"}} title="gsdhgh" required  id="imageBase64" onChange={(e) => setEditedHotel({ ...editedHotel, imageBase64: e.target.files[0] })} />
                 </div>
 
-                <button type="submit" >Envoyer</button>
+                <button type="submit"  disabled={ isDisabled}> <GrUpdate className="icon"></GrUpdate>Update Data</button>
               </form>
             </div>
           </div>

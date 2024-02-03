@@ -1,3 +1,23 @@
 .disable-scroll{
     overflow: hidden;
 }
+/* Largeur de la barre de défilement */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Couleur de fond de la barre de défilement */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Couleur de la poignée de défilement */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Effet de survol de la poignée de défilement */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  

@@ -55,8 +55,14 @@ export default function Hotels() {
 
     const handleSubmit = async (e) => {
       e.preventDefault();
+      const formData = new FormData();
+  formData.append('id', editedHotel.id);
+  formData.append('nom', editedHotel.nom);
+  formData.append('adresse', editedHotel.adresse);
+  formData.append('ville', editedHotel.ville);
+  formData.append('image', editedHotel.imageBase64);
       try {
-        const response = await axios.put(`http://localhost:8088/hotels/${editedHotel.id}`, editedHotel);
+        const response = await axios.put(`http://localhost:80882/hotels/hotels/${editedHotel.id}`, formData);
         console.log("Hotel updated successfully:", response.data);
         // Ajoutez ici la logique pour gérer la réponse du serveur si nécessaire
       } catch (error) {
@@ -89,7 +95,7 @@ export default function Hotels() {
                 </div>
 
                 <div>
-                <input type="file" name="imageBase64" onChange={(e) => setEditedHotel({ ...editedHotel, imageBase64: null })} />
+                <input type="file" name="imageBase64" onChange={(e) => setEditedHotel({ ...editedHotel, imageBase64: e.target.files[0] })} />
                 </div>
 
                 <button type="submit" onClick={(e)=>handleSubmit}>Envoyer</button>

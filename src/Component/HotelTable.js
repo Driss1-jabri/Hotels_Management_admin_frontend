@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from "react";
 import "./Table.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { GrUpdate } from "react-icons/gr";
 import axios from "axios";
+
 import './Update_view_Folder/ConponentUp.css'
 import logo from '../images/logohotel.png'
 import { RiUploadCloud2Line } from "react-icons/ri";
-import { GrUpdate } from "react-icons/gr";
+
 
 const HotelTable = () => {
   const [hotels, setHotels] = useState([]);
   const [isVisible, setIsVisible] = useState(null);
+  const [isAjoutFormVisible, setIsAjoutFormVisible] = useState(false);
+
+
+
+
+
+
+  const handleAjoutFormClose = () => {
+    setIsAjoutFormVisible(false);
+  };
+
 
   const fetchHotels = async () => {
     try {
@@ -120,7 +133,7 @@ const HotelTable = () => {
               <div className="headform">
                 <img src={logo}/>
                 
-                <button onClick={() => toggleVisibility(hotel.id)}> X</button>
+                <button onClick={() => toggleVisibility(hotel.id)} readOnly > X</button>
               </div>
 
               <form onSubmit={handleSubmit} className="form">
@@ -170,35 +183,173 @@ const HotelTable = () => {
     console.log(`View hotel with id: ${hotelId}`);
   };
 
+  const AjoutForm = ({ onClose, onSubmit }) => {
+    const [nom, setNom] = useState("");
+    const [adresse, setAdresse] = useState("");
+    const [ville, setVille] = useState("");
+    const [image, setImage] = useState(null);
+
+    const handleNomChange = (e) => setNom(e.target.value);
+    const handleAdresseChange = (e) => setAdresse(e.target.value);
+    const handleVilleChange = (e) => setVille(e.target.value);
+    const handleImageChange = (e) => {
+      console.log("Selected image:", e.target.files[0]);
+      setImage(e.target.files[0]);
+    };
+
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData();
+      formData.append("nom", nom);
+      formData.append("adresse", adresse);
+      formData.append("ville", ville);
+
+      
+      if (image) {
+        formData.append("image", image);
+      }
+
+      try {
+        await axios.post("http://localhost:8088/hotels", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        
+        fetchHotels(); 
+        setNom("");
+        setAdresse("");
+        setVille("");
+        setImage(null);
+
+        setIsAjoutFormVisible(false);
+      } catch (error) {
+        console.error("Error adding hotel:", error);
+      }
+    };
+    return (
+      <div className="cg">
+        <div className="cm">
+          <div className="cmc">
+            <div className="headform">
+              <img src={logo} />
+
+              <button onClick={() => onClose()}> X</button>
+            </div>
+
+            <form className="form" onSubmit={handleSubmit}>
+              <div>
+                <label htmlFor="nom"> Nom d'hôtel</label>
+                <input
+                  type="text"
+                  required
+                  id="nom"
+                  value={nom}
+                  onChange={handleNomChange}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="adresse">Adresse d'hôtel</label>
+                <input
+                  type="text"
+                  required
+                  id="adresse"
+                  value={adresse}
+                  onChange={handleAdresseChange}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="ville"> Ville d'hôtel:</label>
+                <input
+                  type="text"
+                  required
+                  id="ville"
+                  value={ville}
+                  onChange={handleVilleChange}
+                />
+              </div>
+
+              <div>
+                <label
+                  title="image"
+                  htmlFor="imageBase64"
+                  className="labelFile"
+                >
+                  <RiUploadCloud2Line className="icon" /> Importer Image
+                </label>
+
+                <input
+                  type="file"
+                  onChange={handleImageChange}
+                  style={{ display: "none" }}
+                  id="imageBase64"
+                />
+              </div>
+
+              <button type="submit">
+                {" "}
+                <GrUpdate className="icon"></GrUpdate> Ajouter{" "}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="container-fluid py-4">
       <div className="row">
         <div className="col-12">
+
           <div className="my-4">
-            <div className="card-header p-0 position-relative mt-n4 mx-3">
-              <div className="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+            <div className="card-header p-0 mt-n4 mx-3">
+              <div className="shadow-primary border-radius-lg pt-4 pb-3">
+
+          <div className="my-4">
+            <div className="card-header p-0  mt-n4 mx-3 ">
+              <div
+                className="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+
                 <h6 className="text-white text-capitalize ps-3">
                   Table des hotels
                 </h6>
+                <button
+                  style={{
+                    marginRight: "10px",
+                    backgroundColor: "white",
+                    paddingLeft: "40px",
+                    paddingRight: "40px",
+                    borderRadius: "9px",
+                    paddingTop: "7px",
+                    paddingBottom: "7px",
+                  }}
+                  onClick={() => setIsAjoutFormVisible(true)}
+                >
+                  Ajouter
+                </button>
               </div>
             </div>
-            <div className="card-body px-0 pb-2">
+            <div className=" px-0 pb-2">
               <div className="table-responsive p-0">
                 <table className="table align-items-center mb-0">
                   <thead>
                     <tr>
-                      <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        Id
-                      </th>
-                      <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                        Nom
-                      </th>
-                      <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        Adresse
-                      </th>
-                      <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        Ville
-                      </th>
+                      <th className="text-secondary opacity-7">Id</th>
+                      <th className="tebxt-secondary opacity-7">Nom</th>
+                      <th className="text-secondary opacity-7">Adresse</th>
+                      <th className="text-secondary opacity-7">Ville</th>
                       <th className="text-secondary opacity-7">Image</th>
                       <th className="text-secondary opacity-7">Action</th>
                     </tr>
@@ -230,6 +381,7 @@ const HotelTable = () => {
                           >
                             ✏️
                           </span>
+
                           <span
                             style={{ cursor: "pointer", marginRight: "10px" }}
                             title="Supprimer"
@@ -240,7 +392,6 @@ const HotelTable = () => {
                           <span
                             style={{ cursor: "pointer" }}
                             title="Visualiser"
-                            onClick={() => handleView(hotel.id)}
                           >
                             👁️
                           </span>
@@ -258,9 +409,16 @@ const HotelTable = () => {
           </div>
         </div>
       </div>
-      
+
+      {isAjoutFormVisible && (
+        <AjoutForm onClose={handleAjoutFormClose} onSubmit={fetchHotels} />
+      )}
+
     </div>
-  );
-};
+    </div>
+    </div>
+    </div>
+  )};
+
 
 export default HotelTable;

@@ -5,9 +5,11 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SideBar from "./Component/SideBar";
 import Hotels from "./Component/Hotels";
 import Rooms from "./Component/Rooms";
-import HotelTable from "./Component/HotelTable";
+
 import './App.css'
 import ToggleContent from "./Component/Update_view_Folder/ConponentUp";
+import HotelTableNew from "./Component/HotelTableNew";
+import HotelTable from "./Component/HotelTable";
 
 const Home = () =>  <div>Contenu de la page d'accueil</div>;
 const Page1 = () => (

@@ -1,5 +1,7 @@
 .disable-scroll{
     overflow: hidden;
+    
+    
 }
 /* Largeur de la barre de défilement */
 ::-webkit-scrollbar {

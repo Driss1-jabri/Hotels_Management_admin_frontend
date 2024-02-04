@@ -1,8 +1,9 @@
 .cg{
     background-color: red;
+    
 }
 .cm{
-    background-color: rgba(41, 15, 15, 0.285);
+    background-color: rgba(3, 2, 2, 0.395);
     width: 100vw;
     height: 100vh;
     position: absolute;
@@ -13,6 +14,8 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    border: 6px solid red;
+    
     
     .cmc{
         border-radius: 4px;
@@ -82,9 +85,7 @@
                         
                     }
 
-                }
-                
-                
+                } 
                 
             }
             input , button{
@@ -108,7 +109,6 @@
                     
                 }
             }
-
         }
        
         

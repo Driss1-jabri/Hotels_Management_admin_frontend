@@ -7,7 +7,7 @@ import logo from '../images/logohotel.png'
 import { RiUploadCloud2Line } from "react-icons/ri";
 import { GrUpdate } from "react-icons/gr";
 
-const HotelTable = () => {
+const HotelTableNew = () => {
   const [hotels, setHotels] = useState([]);
   const [isVisible, setIsVisible] = useState(null);
 
@@ -263,4 +263,4 @@ const HotelTable = () => {
   );
 };
 
-export default HotelTable;
+export default HotelTableNew;

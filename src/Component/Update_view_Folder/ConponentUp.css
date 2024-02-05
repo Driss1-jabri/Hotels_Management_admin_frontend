@@ -18,6 +18,7 @@
     
     
     .cmc{
+        box-sizing: border-box;
         border-radius: 4px;
         background-color: rgba(255, 255, 255, 0.998);
         width: 35vw;
@@ -112,6 +113,74 @@
         }
        
         
+    }
+    /* ----------------------------- hotel view style -----------------------------*/
+    .hotelview{
+        width: 100vw;
+        height: 100vh;
+        
+        .hotelbody{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            
+            .hotelimage{
+                width: 45%;
+                height: 100%;
+                
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+            img{
+                margin: 6px;
+                width: 80%;
+                height: 70%;
+                border-radius: 6px;
+            }
+            p{
+                margin: 6px;
+                font-size: 40px;
+                font-family: 'Cambria';
+                color: rgb(255, 247, 0);
+                box-shadow: 3px 6px 30px 0px rgb(229, 19, 211);
+                background-color: rgba(0, 0, 0, 0.491);
+                padding: 2px 10px;
+                border-radius: 100px;
+                transition: 2s ;
+
+               &:hover{
+                transform: scale(1.2);
+                color: orangered;
+               }
+            }
+            
+        }
+        .hotelinfo{
+            
+            width: 55%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            
+            p{
+                margin: 5px;
+                font-size: 25px;
+                span{
+                    font-weight: bolder;
+                    text-decoration: solid;
+                    font-size: 30px;
+                    color: rgb(71, 52, 52);
+                    text-transform: uppercase;
+                    text-decoration: dotted;
+                    margin-left:  0 50px;
+                }
+            }
+        }
+    }
     }
    
     

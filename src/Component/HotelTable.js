@@ -13,6 +13,7 @@ const HotelTable = () => {
   const [hotels, setHotels] = useState([]);
   const [isVisible, setIsVisible] = useState(null);
   const [isAjoutFormVisible, setIsAjoutFormVisible] = useState(false);
+  const [ isVisibleView , setisVisibleView]=useState(null);
 
 
 
@@ -177,10 +178,62 @@ const HotelTable = () => {
     );
   }
 
+/////////////////////////////////////////////////////////////////////////////////////
 
+const toggleVisibilityView = (hotelId) => {
+  setisVisibleView(isVisibleView === hotelId ? null : hotelId);
+  console.log(isVisibleView)
 
-  const handleView = (hotelId) => {
-    console.log(`View hotel with id: ${hotelId}`);
+  if (isVisibleView !== hotelId) {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    document.body.classList.add('disable-scroll');
+  } else {
+    document.body.classList.remove('disable-scroll');
+  }
+};
+  const HandleView = ({ hotel }) => {
+
+    
+    
+
+    return(
+      <div className="cg">
+        {isVisibleView === hotel.id && (
+          
+          
+            <div className="cm" >
+                <div className="cmc hotelview">
+                  <div className="headform">
+                    <img src={logo}/>
+                    <button onClick={() => toggleVisibilityView(hotel.id)} readOnly > X</button>
+                  </div>
+                  <div className="hotelbody">
+                      <div className="hotelimage">
+                        <img  src={`data:image/png;base64,${hotel.imageBase64}`} alt="Description de l'image" />
+                        <p>{hotel.nom}</p>
+                      </div>
+                      <div className="hotelinfo">
+                        <p><span>Identifiant d'hotel :</span>{hotel.id}</p>
+                        <p> <span>ville d'hotel :</span>{hotel.ville}</p>
+
+                        <p><span>adresse d'hotel  :</span>{hotel.adresse}</p>
+                        <p><span>chambre exist:</span>{hotel.chambreIds[0]},{hotel.chambreIds[1]}</p>
+
+                      </div>
+                      
+                </div>
+                </div>
+
+                
+            </div>
+          
+        )}
+        </div>
+     
+    )
   };
 
   const AjoutForm = ({ onClose, onSubmit }) => {
@@ -392,13 +445,16 @@ const HotelTable = () => {
                           <span
                             style={{ cursor: "pointer" }}
                             title="Visualiser"
+                            onClick={() => toggleVisibilityView(hotel.id)}
                           >
                             👁️
                           </span>
                           
+                          
                         </td>
-
+                        <HandleView hotel={hotel} ></HandleView>
                         <ToggleContent1 hotel={hotel} />
+                        
                       </tr>
                       
                     ))}

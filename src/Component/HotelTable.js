@@ -206,8 +206,14 @@ const toggleVisibilityView = (hotelId) => {
           
             <div className="cm" >
                 <div className="cmc hotelview">
-                  <div className="headform">
-                    <img src={logo}/>
+                  <div className="headform" style={{}}>
+                    <div style={{display:'flex',justifyContent:"space-between", gap:"20px",alignItems:"center"}}>
+                        <img src={logo}/>
+                        <p style={{fontFamily:"algerian",color:"black",fontSize:"50px",borderRadius:"20px 4px 20px 4px",backgroundColor:"antiquewhite"}}>
+                            <span style={{fontFamily:"algerian",color:"orangered",fontSize:"50px"}}>
+                            dyafa</span>tocom
+                        </p>
+                    </div>
                     <button onClick={() => toggleVisibilityView(hotel.id)} readOnly > X</button>
                   </div>
                   <div className="hotelbody">
@@ -220,7 +226,9 @@ const toggleVisibilityView = (hotelId) => {
                         <p> <span>ville d'hotel :</span>{hotel.ville}</p>
 
                         <p><span>adresse d'hotel  :</span>{hotel.adresse}</p>
-                        <p><span>chambre exist:</span>{hotel.chambreIds[0]},{hotel.chambreIds[1]}</p>
+                        
+                        <p><span>nombre de chambres:</span>{hotel.chambreIds.length}</p>
+                        <p><span>Ranking:</span>{hotel.chambreIds.length}</p>
 
                       </div>
                       

@@ -89,7 +89,7 @@
                 } 
                 
             }
-            input , button{
+            input , button , select{
                 border: 2px solid rgb(0, 0, 0);
                 width: 100%;
                 height: 50px;

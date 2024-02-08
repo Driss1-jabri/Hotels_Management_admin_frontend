@@ -4,12 +4,13 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SideBar from "./Component/SideBar";
 import Hotels from "./Component/Hotels";
-import Rooms from "./Component/Rooms";
+
 
 import './App.css'
 import ToggleContent from "./Component/Update_view_Folder/ConponentUp";
 import HotelTableNew from "./Component/HotelTableNew";
 import HotelTable from "./Component/HotelTable";
+import Rooms from "./Component/Rooms";
 
 const Home = () =>  <div>Contenu de la page d'accueil</div>;
 const Page1 = () => (
@@ -26,13 +27,17 @@ const App = () => {
       <div style={{ display: "flex" }}>
         <SideBar />
         <div style={{ marginLeft: "0%", padding: "20px", width: "80%" }}>
-          
           <Routes>
             <Route path="/" exact element={<Home />} />
             <Route path="/page1" element={<Hotels />} />
             <Route path="/page2" element={<HotelTable />} />
             <Route path="/page3" element={<Page3 />} />
             <Route path="/page4" element={<Page4 />} />
+            <Route
+              exact
+              path="/rooms/:id"
+              element={<Rooms />}
+            />
           </Routes>
         </div>
       </div>

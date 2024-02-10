@@ -319,11 +319,11 @@ const Rooms = () => {
   }
 
   const UpdateData = ({room}) => {
-    const [capacite, setCapacite] = useState("");
-    const [prix, setPrix] = useState("");
-    const [type, setType] = useState("");
+    const [capacite, setCapacite] = useState(room.capacite);
+    const [prix, setPrix] = useState(room.prix);
+    const [type, setType] = useState(room.type);
     const [image, setImage] = useState(null);
-    const [nom, setNom] = useState("");
+    const [nom, setNom] = useState(room.nom);
 
     const handleCapaciteChange = (e) => setCapacite(e.target.value);
     const handlePrixChange = (e) => setPrix(e.target.value);
@@ -349,7 +349,7 @@ const Rooms = () => {
       }
 
       try {
-        await axios.post(`http://localhost:8088/hotels/${id}/rooms`, formData, {
+        await axios.put(`http://localhost:8088/hotels/${id}/rooms/${room.id}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -449,7 +449,7 @@ const Rooms = () => {
               </div>
 
               <button type="submit">
-                <GrUpdate className="icon"></GrUpdate> Ajouter
+                <GrUpdate className="icon"></GrUpdate> Update
               </button>
             </form>
           </div>
